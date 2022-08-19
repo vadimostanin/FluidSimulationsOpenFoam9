@@ -1,0 +1,348 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet 
+    {
+        type            fixedValue;
+        value           uniform (0.0 0 0);
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        value           $internalField;
+        inletValue      uniform (0 0 0);
+    }
+
+    cylinder_set1_1
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_1;
+
+        code
+        #{
+            static const scalar shiftX = 2.7;
+            static const scalar shiftY = 3.0;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_2
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_2;
+
+        code
+        #{
+            static const scalar shiftX = 2.55355;
+            static const scalar shiftY = 3.35355;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_3
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_3;
+
+        code
+        #{
+            static const scalar shiftX = 2.2;
+            static const scalar shiftY = 3.5;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_4
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_4;
+
+        code
+        #{
+            static const scalar shiftX = 1.84645;
+            static const scalar shiftY = 3.35355;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_5
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_5;
+
+        code
+        #{
+            static const scalar shiftX = 1.7;
+            static const scalar shiftY = 3.0;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_6
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_6;
+
+        code
+        #{
+            static const scalar shiftX = 1.84645;
+            static const scalar shiftY = 2.64645;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_7
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_7;
+
+        code
+        #{
+            static const scalar shiftX = 2.2;
+            static const scalar shiftY = 2.5;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_8
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_8;
+
+        code
+        #{
+            static const scalar shiftX = 2.55355;
+            static const scalar shiftY = 2.64645;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set2_1
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_1;
+
+        code
+        #{
+            static const scalar shiftX = 4.3;
+            static const scalar shiftY = 3.0;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_2
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_2;
+
+        code
+        #{
+            static const scalar shiftX = 4.15355;
+            static const scalar shiftY = 3.35355;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_3
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_3;
+
+        code
+        #{
+            static const scalar shiftX = 3.8;
+            static const scalar shiftY = 3.5;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_4
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_4;
+
+        code
+        #{
+            static const scalar shiftX = 3.44645;
+            static const scalar shiftY = 3.35355;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_5
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_5;
+
+        code
+        #{
+            static const scalar shiftX = 3.3;
+            static const scalar shiftY = 3.0;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_6
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_6;
+
+        code
+        #{
+            static const scalar shiftX = 3.44645;
+            static const scalar shiftY = 2.64645;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_7
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_7;
+
+        code
+        #{
+            static const scalar shiftX = 3.8;
+            static const scalar shiftY = 2.5;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_8
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_8;
+
+        code
+        #{
+            static const scalar shiftX = 4.15355;
+            static const scalar shiftY = 2.64645;
+            static const vector CENTER(shiftX, shiftY, 0.0);
+            static const scalar rotate_speed_max = - 7500000.0/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf- CENTER);
+            operator==(rot);
+        #};
+    }
+
+    bottom
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    top
+    {
+        type            slip;
+    }
+
+    front
+    {
+        type            empty;
+    }
+
+    back
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
