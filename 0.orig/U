@@ -1,0 +1,1220 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet 
+    {
+        type            fixedValue;
+        value           uniform (0.0 0 0);
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        value           $internalField;
+        inletValue      uniform (0 0 0);
+    }
+
+    cylinder_set1_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.000, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 5.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.000, 1.0}
+            };
+            static const scalar shiftX = 1.475;
+            static const scalar shiftY = 5.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_3
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_3;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.000, 1.0}
+            };
+            static const scalar shiftX = 1.475;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_4
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_4;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.000, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 5.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_5
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_5;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.000, 1.0}
+            };
+            static const scalar shiftX = 4.525;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set1_6
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_6;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.000, 1.0}
+            };
+            static const scalar shiftX = 4.525;
+            static const scalar shiftY = 5.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set2_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.002, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 4.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set2_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set2_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.002, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 4.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    
+
+    cylinder_set3_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set3_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0024, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set3_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set3_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0024, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set3_3
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set3_3;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0024, 1.0}
+            };
+            static const scalar shiftX = 1.475;
+            static const scalar shiftY = 3.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set3_4
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set3_4;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0024, 1.0}
+            };
+            static const scalar shiftX = 4.525;
+            static const scalar shiftY = 3.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set4_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set4_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0028, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 3.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set4_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set4_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0028, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 3.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set5_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set5_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0032, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 3.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set5_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set5_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0032, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 3.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set5_3
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set5_3;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0032, 1.0}
+            };
+            static const scalar shiftX = 1.475;
+            static const scalar shiftY = 2.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set5_4
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set5_4;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0032, 1.0}
+            };
+            static const scalar shiftX = 4.525;
+            static const scalar shiftY = 2.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set6_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set6_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.0036, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 2.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set6_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set6_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.0036, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 2.5;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set7_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set7_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.004, 1.0}
+            };
+            static const scalar shiftX = 2.475;
+            static const scalar shiftY = 2.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set7_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set7_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.004, 1.0}
+            };
+            static const scalar shiftX = 3.525;
+            static const scalar shiftY = 2.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+    cylinder_set8_1
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set8_1;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {false, 0.000, 0.002}
+            };
+            static const scalar shiftX = 2.875;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+    cylinder_set8_2
+    {
+
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set8_2;
+
+        code
+        #{
+            struct StartStopRangeT
+            {
+                bool mCCWDirection;
+                scalar mStart;
+                scalar mStop;
+            };
+            StartStopRangeT ranges[] = {
+                {true, 0.000, 0.002}
+            };
+            static const scalar shiftX = 3.125;
+            static const scalar shiftY = 4.0;
+            const vector CENTER(shiftX, shiftY, 0.0);
+            const scalar rotate_speed_max = 1000000.0/60*6.28;
+            
+            const scalar time = this->db().time().value();
+            const fvPatch& boundaryPatch = patch(); 
+            const vectorField& Cf = boundaryPatch.Cf(); 
+            vectorField rot(Cf.size(), vector(0,0,0));
+
+            for(const auto range : ranges)
+            {
+                const scalar rotate_time_start = range.mStart;
+                const scalar rotate_time_end = range.mStop;
+                if(time >= rotate_time_start && time <= rotate_time_end)
+                {
+                    const bool CCWDirection = range.mCCWDirection;
+
+                    scalar rotate_speed = rotate_speed_max;//120 + 2.0 * (time - rotate_time_start) * (time - rotate_time_start);
+                    rotate_speed *= CCWDirection ? 1 : -1;
+                    rotate_speed = std::abs(rotate_speed) > rotate_speed_max ? rotate_speed_max * rotate_speed / std::abs(rotate_speed) : rotate_speed;
+
+                    rot = rotate_speed * vector(0,0,1) ^ (Cf- CENTER);
+                    // std::cout << __func__ << ":" << __LINE__ << " rotate_speed=" << rotate_speed <<std::endl;
+                    break;
+                }
+            }
+            operator==(rot);
+        #};
+    }
+
+
+    bottom
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    top
+    {
+        type            slip;
+    }
+
+    front
+    {
+        type            empty;
+    }
+
+    back
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

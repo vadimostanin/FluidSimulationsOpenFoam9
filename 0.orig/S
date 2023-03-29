@@ -1,0 +1,153 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    location    "0";
+    object      S;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    
+    outlet 
+    {
+        type            zeroGradient;
+    }
+
+    cylinder_set1_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set1_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set1_3
+    {
+        type            zeroGradient;
+    }
+    cylinder_set1_4
+    {
+        type            zeroGradient;
+    }
+    cylinder_set1_5
+    {
+        type            zeroGradient;
+    }
+    cylinder_set1_6
+    {
+        type            zeroGradient;
+    }
+    cylinder_set2_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set2_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set3_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set3_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set3_3
+    {
+        type            zeroGradient;
+    }
+    cylinder_set3_4
+    {
+        type            zeroGradient;
+    }
+    cylinder_set4_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set4_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set5_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set5_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set5_3
+    {
+        type            zeroGradient;
+    }
+    cylinder_set5_4
+    {
+        type            zeroGradient;
+    }
+    cylinder_set6_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set6_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set7_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set7_2
+    {
+        type            zeroGradient;
+    }
+    cylinder_set8_1
+    {
+        type            zeroGradient;
+    }
+    cylinder_set8_2
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            zeroGradient;
+    }
+
+    top
+    {
+        type            zeroGradient;
+    }
+
+    front
+    {
+        type            empty;
+    }
+
+    back
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
