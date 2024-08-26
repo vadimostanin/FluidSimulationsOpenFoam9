@@ -1,0 +1,71 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    location    "0";
+    object      S;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    sphere_set1_1
+    {
+        type            zeroGradient;
+    }
+    sphere_set1_2
+    {
+        type            zeroGradient;
+    }
+    inlet
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+    outlet
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+    top
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+    bottom
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+    back
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+    front
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform 0;
+    }
+}
+
+
+// ************************************************************************* //

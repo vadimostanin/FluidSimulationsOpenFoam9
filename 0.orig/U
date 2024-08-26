@@ -1,0 +1,101 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    sphere_set1_1
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_1;
+
+        code
+        #{
+            static const scalar shiftX = 0.5;
+            static const scalar shiftY = 0.5;
+            static const scalar shiftZ = 0.5;
+            static const vector CENTER(shiftX, shiftY, shiftZ);
+            static const scalar rotate_speed_max = 1e2/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf - CENTER);
+            operator==(rot);
+        #};
+    }
+    sphere_set1_2
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_2;
+
+        code
+        #{
+            static const scalar shiftX = 1.0;
+            static const scalar shiftY = 0.5;
+            static const scalar shiftZ = 0.5;
+            static const vector CENTER(shiftX, shiftY, shiftZ);
+            static const scalar rotate_speed_max = - 1e2/60*6.28;
+            const fvPatch& boundaryPatch = patch();
+            const vectorField& Cf = boundaryPatch.Cf();
+            vectorField rot = rotate_speed_max * vector(0,0,1) ^ (Cf - CENTER);
+            operator==(rot);
+        #};
+    }
+    inlet
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    outlet
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    top
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    bottom
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    back
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    front
+    {
+//        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+}
+
+
+// ************************************************************************* //
