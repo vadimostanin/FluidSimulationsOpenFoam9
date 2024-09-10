@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+#-------------------------------------------------#
+# Contributor: Tobias Holzmann                    #
+# Updated on:  10 September 2021                  #
+#-------------------------------------------------#
+# Topic:       Community Cristmas Competition     #
+# OpenFOAM:    version 9 (Foundation)             #
+#-------------------------------------------------#
+# Website:     https://Holzmann-cfd.com           #
+# Email:       community@Holzmann-cfd.com         #
+#-------------------------------------------------#
+
+
+#------------------------------------------------------------------------------
+foamVersion="OpenFOAM-9"
+
+
+#------------------------------------------------------------------------------
+cd ${0%/*} || exit 1
+clear
+source clean
+source .color
+source .preamble
+
+
+#------------------------------------------------------------------------------
+echo -e "\n
+Start meshing
+-------------------------------------------------------------------------------
+"
+
+#------------------------------------------------------------------------------
+echo -e "   - Create background mesh"
+blockMesh
+
+#------------------------------------------------------------------------------
+echo -e "   - Meshing with snappyHexMesh (~ 5 minutes)"
+#snappyHexMesh -overwrite >> logMeshing
+decomposePar >> logMeshing
+mpirun -np 6 snappyHexMesh -parallel -overwrite >> logMeshing
+reconstructParMesh -constant >> logMeshing
+#transformPoints -scale "(0.1 0.1 0.1)" >> logMeshing
+
+
+#------------------------------------------------------------------------------
+echo -e "\n
+-------------------------------------------------------------------------------
+End Meshing\n
+"
+
+#------------------------------------------------------------------------------
+echo -e "   - Change patch type in the boundary file"
+#changeDictionary  >> logFile
+
+#------------------------------------------------------------------------------
+echo -e "   - Copy 0.orig to 0"
+rm -rf 0
+cp -r 0.orig 0
+
+#exit 0
+#------------------------------------------------------------------------------
+echo -e "   - Start simulation"
+echo -e "   - Decompose the case for parallel run"
+decomposePar -force > logSolver
+
+
+#------------------------------------------------------------------------------
+echo -e "   - Renumber mesh for speedup (~5-15%)"
+mpirun -np 6 renumberMesh -overwrite -parallel >> logSolver
+
+
+#------------------------------------------------------------------------------
+echo -e "   - Start steady-state calculation (5 to 60 minutes)"
+# mpirun -np 6 simpleFoam -parallel >> logSolver
+mpirun -np 6 pimpleFoam -parallel >> logSolver
+
+
+#------------------------------------------------------------------------------
+echo -e "   - Simulation ended\n\n"
+
+
+#------------------------------------------------------------------------------

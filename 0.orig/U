@@ -1,0 +1,299 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========         |                         |
+| \\    /  F ield     | OpenFOAM: The Open Source CFD Toolbox       |
+|  \\  /   O peration   | Version:  9                   |
+|   \\  /  A nd       | Web:    www.OpenFOAM.org            |
+|  \\/   M anipulation  |                         |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version   2.0;
+  format    binary;
+  class     volVectorField;
+  location  "0";
+  object    U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions    [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+  sphere_set1_1
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_1;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 0.5;
+      static const scalar shiftY = 1.0;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_2
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_2;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.0;
+      static const scalar shiftY = 0.5;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_3
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_3;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.0;
+      static const scalar shiftY = 1.5;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_4
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_4;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.5;
+      static const scalar shiftY = 1.0;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_5
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_5;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 0.6;
+      static const scalar shiftY = 1.4;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_6
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_6;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.4;
+      static const scalar shiftY = 1.4;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_7
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_7;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.4;
+      static const scalar shiftY = 0.6;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set1_8
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set1_8;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 0.6;
+      static const scalar shiftY = 0.6;
+      static const scalar shiftZ = 0.7;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        //{true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,0,1)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+
+  sphere_set2_1
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set2_1;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 0.85;
+      static const scalar shiftY = 1.0;
+      static const scalar shiftZ = 0.6;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        {true, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,1,0)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set2_2
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set2_2;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.0;
+      static const scalar shiftY = 0.85;
+      static const scalar shiftZ = 0.6;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        {false, 0.0000, 1.0, ROT_MAX_SPEED, vector(1,0,0)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set2_3
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set2_3;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.0;
+      static const scalar shiftY = 1.15;
+      static const scalar shiftZ = 0.6;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        {true, 0.0000, 1.0, ROT_MAX_SPEED, vector(1,0,0)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  sphere_set2_4
+  {
+    type      codedFixedValue;
+    value     uniform (0 0 0);
+    name      myBC_set2_4;
+
+    codeInclude
+    #{#include "../../../include/common.h"#};
+    code
+    #{
+      static const scalar shiftX = 1.15;
+      static const scalar shiftY = 1.0;
+      static const scalar shiftZ = 0.6;
+      static const vector center(shiftX, shiftY, shiftZ);
+      static std::vector<StartStopRangeT> ranges = {
+        {false, 0.0000, 1.0, ROT_MAX_SPEED, vector(0,1,0)}
+      };
+      const scalar time = this->db().time().value();
+      const vectorField& Cf = patch().Cf();
+      operator==(calculateVectorField(Cf, center, time, ranges));
+    #};
+  }
+  allWalls
+  {
+    type      slip;
+//    type      fixedValue;
+//    value       uniform (0 0 0);
+//     type      zeroGradient;
+  }
+}
+
+
+// ************************************************************************* //
