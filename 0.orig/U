@@ -1,0 +1,105 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  9                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet 
+    {
+        type            fixedValue;
+        value           uniform (1 0 0);
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        value           $internalField;
+        inletValue      uniform (0 0 0);
+    }
+
+    cylinder_set1_1
+    {
+        type            codedFixedValue;
+        value           uniform (0 0 0);
+        name            myBC_set1_1;
+
+        code
+        #{
+            const vectorField normals = this->patch().nf(); // нормали
+            vectorField U(normals.size());
+
+            static const scalar rotate_speed_max = 100.0/60*6.28; // м/с — модуль касательной скорости
+            const vector omegaDir = vector(0,0,1); // ось вращения
+/*
+const pointField& Cf = this->patch().Cf();
+vector C(Zero);
+forAll(Cf, i)
+    C += Cf[i];
+C /= Cf.size();
+forAll(Cf, i)
+{
+    vector Urot = (omegaDir ^ (Cf[i] - C));
+    // убираем нормальную компоненту:
+    vector Utang = Urot - (Urot & normals[i]) * normals[i];
+    U[i] = rotate_speed_max * Utang;
+}
+operator==(U);
+*/
+            forAll(normals, i)
+            {
+                vector tangent = omegaDir ^ normals[i]; // касательное направление
+                // нормализуем, защищаясь от деления на ноль
+                scalar tm = mag(tangent);
+                if (mag(normals[i]) < SMALL || tm < SMALL)
+                {
+                    U[i] = vector::zero;
+                }
+                else
+                {
+                    U[i] = rotate_speed_max * (tangent / tm);
+                }
+            }
+
+            operator==(U);
+
+        #};
+    }
+
+    bottom
+    {
+        type            slip;
+    }
+
+    top
+    {
+        type            slip;
+    }
+
+    front
+    {
+        type            empty;
+    }
+
+    back
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
